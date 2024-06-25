@@ -93,7 +93,7 @@ export default function Table({
                 <tbody>
                     {table.getRowModel().rows.map((row) => (
                         <tr key={row.id} className='p-1'>
-                            {row.getVisibleCells().map((cell) => (
+                            {row.getVisibleCells().map((cell: any) => (
                                 <td key={cell.id} width={cell.column.getSize()} className={`p-1`}>
                                     {cell.column.columnDef.accessorKey === 'EDIT' ? (
                                         <div className='flex flex-row justify-between'>
