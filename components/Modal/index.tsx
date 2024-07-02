@@ -32,7 +32,6 @@ export default function Modal({
                     }
                 );
                 const result = await response.json();
-                console.log(result);
                 if (response.status === 201) {
                     setIsUploadSuccess(true);
                 } else {

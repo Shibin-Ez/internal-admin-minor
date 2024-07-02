@@ -1,5 +1,6 @@
 import React from 'react'
-import { FaArrowCircleLeft, FaArrowCircleRight, FaBook, FaCog, FaDoorOpen, FaUser } from 'react-icons/fa'
+import { FaArrowCircleLeft, FaArrowCircleRight, FaBook, FaCalendarTimes, FaCog, FaDoorOpen, FaSeedling, FaTimes, FaUser } from 'react-icons/fa'
+import { MdSchool } from 'react-icons/md';
 
 interface SidebarProps {
     renderComponent: string;
@@ -9,23 +10,55 @@ interface SidebarProps {
 export default function Sidebar({ renderComponent, setRenderComponent }: SidebarProps) {
 
     const [toggleSidebar, setToggleSidebar] = React.useState(false);
+    const [toggleSubFolder, setToggleSubFolder] = React.useState(false);
 
     const sections = [
         {
+            id: 'STUDENTS',
             name: 'Students',
-            icon: <FaUser className='text-gray-400' />
+            icon: <FaUser className='text-gray-400' />,
+            subFolders: []
         },
         {
+            id: 'COURSES',
             name: 'Courses',
-            icon: <FaBook className='text-gray-400' />
+            icon: <FaBook className='text-gray-400' />,
+            subFolders: []
         },
         {
+            id: 'TIMELINE',
+            name: 'Timeline',
+            icon: <FaCalendarTimes className='text-gray-400' />,
+            subFolders: []
+        },
+        {
+            id: 'ALLOTMENT_DETAILS',
+            name: 'Allotment Details',
+            icon: <MdSchool className='text-gray-400' />,
+            subFolders: [
+                {
+                    id: 'STUDENT_WISE',
+                    name: 'Student wise',
+                    icon: <FaUser className='text-gray-400' size={10}/>
+                },
+                {
+                    id: 'COURSE_WISE',
+                    name: 'Course wise',
+                    icon: <FaBook className='text-gray-400' size={10}/>
+                }
+            ]
+        },
+        {
+            id: 'SETTINGS',
             name: 'Settings',
-            icon: <FaCog className='text-gray-400' />
+            icon: <FaCog className='text-gray-400' />,
+            subFolders: []
         },
         {
+            id: 'LOG_OUT',
             name: 'Log Out',
-            icon: <FaDoorOpen className='text-gray-400' />
+            icon: <FaDoorOpen className='text-gray-400' />,
+            subFolders: []
         }
     ]
 
@@ -41,19 +74,47 @@ export default function Sidebar({ renderComponent, setRenderComponent }: Sidebar
                 <ul>
                     {
                         sections.map((section, index) => (
-                            <li
-                                key={index}
-                                onClick={() => {
-                                    setRenderComponent(section.name.toLowerCase())
-                                }}
-                                className={`flex items-center ${toggleSidebar === true ? 'justify-between' : 'justify-center'} px-5 py-2 text-white hover:bg-[#2F3E4E] cursor-pointer ${renderComponent === section.name.toLowerCase() ? 'bg-[#2F3E4E]' : ''}`}>
+                            <>
+                            <div key={index}>
+                                <li
+                                    onClick={() => {
+                                        if(section.id === 'ALLOTMENT_DETAILS'){
+                                            setToggleSubFolder(!toggleSubFolder);
+                                            return;
+                                        }
+                                        setRenderComponent(section.id);
+                                    }}
+                                    className={`flex items-center ${toggleSidebar === true ? 'justify-between' : 'justify-center'} px-5 py-2 text-white hover:bg-[#2F3E4E] cursor-pointer ${renderComponent === section.id ? 'bg-[#2F3E4E]' : ''}`}>
+                                    {
+                                        toggleSidebar === true ? <span>{section.name}</span> : null
+                                    }
+                                    {section.icon}
+                                </li>
                                 {
-                                    toggleSidebar === true ? <span>{section.name}</span> : null
+                                    toggleSubFolder === true && section.id === 'ALLOTMENT_DETAILS' ? (
+                                        <ul>
+                                            {
+                                                section.subFolders.map((subFolder, index) => (
+                                                    <li
+                                                        key={index}
+                                                        onClick={() => {
+                                                            setRenderComponent(subFolder.id);
+                                                        }}
+                                                        className={`flex items-center ${toggleSidebar === true ? 'justify-center' : 'justify-center'} px-5 py-2 gap-4   T text-white hover:bg-[#2F3E4E] cursor-pointer text-sm ${renderComponent === subFolder.id ? 'bg-[#2F3E4E]' : ''}`}>
+                                                        {
+                                                            toggleSidebar === true ? <span>{subFolder.name}</span> : null
+                                                        }
+                                                        {subFolder.icon}
+                                                    </li>
+                                                ))
+                                            }
+                                        </ul>
+                                    ) : null
                                 }
-                                {section.icon}
-                            </li>
+                                </div>
+                            </>
                         ))
-                    }           
+                    }
                 </ul>
             </div>
             <div>

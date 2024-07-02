@@ -2,21 +2,20 @@ import { FaChevronDown, FaPlus, FaUpload } from "react-icons/fa";
 import React from "react";
 
 interface HeaderProps {
-    setShowUploadModal?: (value: boolean) => void;
     customBtn: {
         text: string;
         icon: React.ReactNode;
+        onClick: () => void;
     }
 }
 
 export default function Header({
-    setShowUploadModal,
     customBtn
 }: HeaderProps) {
     return (
         <div className="w-full h-20 bg-[#1E293B] flex justify-end items-end px-2">
             <div onClick={() => 
-                setShowUploadModal && setShowUploadModal(true)
+                customBtn.onClick()   
             } className="rounded bg-white my-1 mx-2 h-8 justify-between px-2 w-28 items-center flex text-gray-500 cursor-pointer">
                 <p className="text-sm">{customBtn.text}</p>
                 {customBtn.icon}

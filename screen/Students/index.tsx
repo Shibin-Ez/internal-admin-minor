@@ -98,10 +98,12 @@ export default function Students() {
     <div className="flex bg-[#D9D9D9]">
       <div className="w-full min-h-screen">
         <Header
-          setShowUploadModal={setShowUploadModal}
           customBtn={{
             text: "Upload CSV",
             icon: <FaUpload size={12} />,
+            onClick: () => {
+              setShowUploadModal(true);
+            },
           }}
         />
         {

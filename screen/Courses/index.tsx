@@ -88,6 +88,9 @@ export default function Courses() {
           customBtn={{
             text: "Add Course",
             icon: <FaPlus size={10} />,
+            onClick: () => {
+              console.log("Add Course");
+            },
           }}
         />
         <Table

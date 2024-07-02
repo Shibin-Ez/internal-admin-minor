@@ -18,6 +18,10 @@ interface TableProps {
     handleDeleteRow: any;
     handleEditRow: any;
     loading: boolean;
+    isClickable?: boolean;
+    setRenderComponent?: any;
+    setRenderData?: any;
+    navigationTo?: string;
 }
 
 export default function Table({
@@ -26,7 +30,11 @@ export default function Table({
     columnFilters,
     handleDeleteRow,
     handleEditRow,
-    loading
+    loading,
+    isClickable,
+    setRenderComponent,
+    setRenderData,
+    navigationTo,
 }: TableProps) {
 
     const [pagination, setPagination] = React.useState({
@@ -52,9 +60,9 @@ export default function Table({
     return (
         <div className="relative overflow-x-auto bg-white shadow-xl m-5 max-h-screen border border-black">
             <table className="w-full text-sm text-left rtl:text-right text-gray-500 border-b border-black min-h-[27rem]">                
-                <thead className="text-xs text-white uppercase bg-[#1E293B]">
+                <thead className="text-xs text-white uppercase bg-[#1E293B] ">
                     {table.getHeaderGroups().map((headerGroup) => (
-                        <tr key={headerGroup.id} className='p-1'>
+                        <tr key={headerGroup.id} className='p-1 flex-row justify-center text-center items-center border border-gray-300'>
                             {headerGroup.headers.map((header) => (
                                 <th
                                     key={header.id}
@@ -92,9 +100,29 @@ export default function Table({
                     ) : (
                 <tbody>
                     {table.getRowModel().rows.map((row) => (
-                        <tr key={row.id} className='p-1'>
+                        <tr key={row.id} className={`p-1 ${row.original.ISDROPPED && 'bg-red-200'} ${!row.original.ISDROPPED && 'hover:bg-gray-100'}`} 
+                            onClick={() => {
+                                console.log('row', row.original.ISDROPPED);
+                                    if (isClickable && !row.original.ISDROPPED) {
+                                        console.log('row', row.original.STUDENTS);
+                                        setRenderComponent(navigationTo);
+                                        setRenderData({
+                                            studentsList: row.original.STUDENTS,
+                                            course: row.original.CODE
+                                        });
+                                    }
+                            }}
+                            style={
+                                { 
+                                    cursor: isClickable && !row.original.ISDROPPED ? 'pointer' : 'default',
+                                }
+                            }
+                        >
                             {row.getVisibleCells().map((cell: any) => (
-                                <td key={cell.id} width={cell.column.getSize()} className={`p-1`}>
+                                <td 
+                                key={cell.id} 
+                                width={cell.column.getSize()} 
+                                className={`flex-col justify-center text-center border border-gray-300`}>
                                     {cell.column.columnDef.accessorKey === 'EDIT' ? (
                                         <div className='flex flex-row justify-between'>
                                             <span className='text-blue-500 cursor-pointer' onClick={() => handleEditRow(cell.row.original)}>
@@ -137,7 +165,6 @@ export default function Table({
                                 <button
                                     key={page}
                                     onClick={() => {
-                                        console.log('page', page);
                                         table.setPageIndex(page);
                                     }}
                                     disabled={table.getState().pagination.pageIndex === page}

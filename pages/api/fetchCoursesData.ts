@@ -1,5 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import axios from "axios";
+import { BASE_URL } from "@/constants/AppConstants";
 
 const formatData = (data: any) => {
     return data.map((course: any) => {
@@ -20,7 +21,7 @@ const formatData = (data: any) => {
 
 const fetchCoursesData = async (req: NextApiRequest, res: NextApiResponse) => {
     try {
-        const response = await axios.get("https://minor-nitc-server.onrender.com/minors");
+        const response = await axios.get(`${BASE_URL}/minors`);
         const data = response.data;
         console.log(data);
         const formattedData = formatData(data);
