@@ -9,7 +9,7 @@ interface SidebarProps {
 
 export default function Sidebar({ renderComponent, setRenderComponent }: SidebarProps) {
 
-    const [toggleSidebar, setToggleSidebar] = React.useState(false);
+    const [toggleSidebar, setToggleSidebar] = React.useState(true);
     const [toggleSubFolder, setToggleSubFolder] = React.useState(false);
 
     const sections = [
