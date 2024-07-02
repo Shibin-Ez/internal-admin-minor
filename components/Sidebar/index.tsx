@@ -39,12 +39,12 @@ export default function Sidebar({ renderComponent, setRenderComponent }: Sidebar
                 {
                     id: 'STUDENT_WISE',
                     name: 'Student wise',
-                    icon: <FaUser className='text-gray-400' size={10}/>
+                    icon: <FaUser className='text-gray-400' size={10} />
                 },
                 {
                     id: 'COURSE_WISE',
                     name: 'Course wise',
-                    icon: <FaBook className='text-gray-400' size={10}/>
+                    icon: <FaBook className='text-gray-400' size={10} />
                 }
             ]
         },
@@ -75,42 +75,47 @@ export default function Sidebar({ renderComponent, setRenderComponent }: Sidebar
                     {
                         sections.map((section, index) => (
                             <>
-                            <div key={index}>
-                                <li
-                                    onClick={() => {
-                                        if(section.id === 'ALLOTMENT_DETAILS'){
-                                            setToggleSubFolder(!toggleSubFolder);
-                                            return;
-                                        }
-                                        setRenderComponent(section.id);
-                                    }}
-                                    className={`flex items-center ${toggleSidebar === true ? 'justify-between' : 'justify-center'} px-5 py-2 text-white hover:bg-[#2F3E4E] cursor-pointer ${renderComponent === section.id ? 'bg-[#2F3E4E]' : ''}`}>
-                                    {
-                                        toggleSidebar === true ? <span>{section.name}</span> : null
-                                    }
-                                    {section.icon}
-                                </li>
-                                {
-                                    toggleSubFolder === true && section.id === 'ALLOTMENT_DETAILS' ? (
-                                        <ul>
-                                            {
-                                                section.subFolders.map((subFolder, index) => (
-                                                    <li
-                                                        key={index}
-                                                        onClick={() => {
-                                                            setRenderComponent(subFolder.id);
-                                                        }}
-                                                        className={`flex items-center ${toggleSidebar === true ? 'justify-center' : 'justify-center'} px-5 py-2 gap-4   T text-white hover:bg-[#2F3E4E] cursor-pointer text-sm ${renderComponent === subFolder.id ? 'bg-[#2F3E4E]' : ''}`}>
-                                                        {
-                                                            toggleSidebar === true ? <span>{subFolder.name}</span> : null
-                                                        }
-                                                        {subFolder.icon}
-                                                    </li>
-                                                ))
+                                <div key={index}>
+                                    <li
+                                        onClick={() => {
+                                            if (section.id === 'ALLOTMENT_DETAILS') {
+                                                setToggleSubFolder(!toggleSubFolder);
+                                                return;
                                             }
-                                        </ul>
-                                    ) : null
-                                }
+                                            setRenderComponent(section.id);
+                                        }}
+                                        className={`flex items-center ${toggleSidebar === true ? 'justify-between' : 'justify-center'} px-5 py-2 text-white hover:bg-[#2F3E4E] cursor-pointer ${renderComponent === section.id ? 'bg-[#2F3E4E]' : ''}`}>
+                                        {
+                                            toggleSidebar === true ? <span>{section.name}</span> : null
+                                        }
+                                        {section.icon}
+                                    </li>
+                                    {
+                                        toggleSubFolder === true && section.id === 'ALLOTMENT_DETAILS' ? (
+                                            <ul>
+                                                {
+                                                    section.subFolders.map((subFolder, index) => (
+                                                        <div key={index} className={`${toggleSidebar && 'flex flex-row items-center justify-start gap-2 pl-5'}`}>
+                                                            <div 
+                                                                className={`${toggleSidebar ? 'bg-transparent border-l border-white border-b h-5 w-10 mb-4 rounded-bl-md' : 'hidden'}`}
+                                                            />
+                                                            <li
+                                                                key={index}
+                                                                onClick={() => {
+                                                                    setRenderComponent(subFolder.id);
+                                                                }}
+                                                                className={`flex items-center w-full ${toggleSidebar === true ? 'justify-between' : 'justify-center'} px-5 py-2 gap-4   T text-white hover:bg-[#2F3E4E] cursor-pointer text-sm ${renderComponent === subFolder.id ? 'bg-[#2F3E4E]' : ''}`}>
+                                                                {
+                                                                    toggleSidebar === true ? <span>{subFolder.name}</span> : null
+                                                                }
+                                                                {subFolder.icon}
+                                                            </li>
+                                                        </div>
+                                                    ))
+                                                }
+                                            </ul>
+                                        ) : null
+                                    }
                                 </div>
                             </>
                         ))
