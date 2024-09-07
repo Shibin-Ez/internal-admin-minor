@@ -97,7 +97,7 @@ export default function Students() {
   return (
     <div className="flex bg-[#D9D9D9]">
       <div className="w-full min-h-screen">
-        <Header
+        {/* <Header
           customBtn={{
             text: "Upload CSV",
             icon: <FaUpload size={12} />,
@@ -105,7 +105,7 @@ export default function Students() {
               setShowUploadModal(true);
             },
           }}
-        />
+        /> */}
         {
           !isDataNull ? (
             <Table

@@ -1,1 +1,1 @@
-export const BASE_URL = "https://shibin.ssl.airno.de/nitc";
+export const BASE_URL = "http://localhost:3001";

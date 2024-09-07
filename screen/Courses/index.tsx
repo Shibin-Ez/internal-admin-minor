@@ -84,7 +84,7 @@ export default function Courses() {
   return (
     <div className="flex bg-[#D9D9D9]">
       <div className="w-full min-h-screen">
-        <Header 
+        {/* <Header 
           customBtn={{
             text: "Add Course",
             icon: <FaPlus size={10} />,
@@ -92,7 +92,7 @@ export default function Courses() {
               console.log("Add Course");
             },
           }}
-        />
+        /> */}
         <Table
           data={data}
           columns={columns}
