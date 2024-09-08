@@ -97,7 +97,11 @@ export default function Students() {
   return (
     <div className="flex bg-[#D9D9D9]">
       <div className="w-full min-h-screen">
-        {/* <Header
+        <Header
+          maxStudents={50}
+          setMaxStudents={() => { }}
+          minStudents={10}
+          setMinStudents={() => { }}
           customBtn={{
             text: "Upload CSV",
             icon: <FaUpload size={12} />,
@@ -105,7 +109,7 @@ export default function Students() {
               setShowUploadModal(true);
             },
           }}
-        /> */}
+        />
         {
           !isDataNull ? (
             <Table
@@ -131,6 +135,7 @@ export default function Students() {
       <Modal
         setShowModal={setShowUploadModal}
         showModal={showUploadModal}
+        type="students"
       />
     </div>
   );
