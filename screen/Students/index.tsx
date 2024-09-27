@@ -69,6 +69,21 @@ export default function Students() {
 
       },
     },
+    {
+      header: 'ChoiceNo',
+      accessorKey: 'CHOICENO',
+      size: 200,
+      cell: (info: any) => {
+        const value = info.getValue();
+        console.log(value === "-1");
+        return (
+          <div className={`rounded-full px-2 py-1`}>
+            <p className="text-xs">{value === "-1" ? 'Not Enrolled' : 'Enrolled'}</p>
+          </div>
+        );
+
+      },
+    },
   ], []);
 
   const [loading, setLoading] = React.useState(false);
