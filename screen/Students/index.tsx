@@ -69,6 +69,21 @@ export default function Students() {
 
       },
     },
+    {
+      header: 'ChoiceNo',
+      accessorKey: 'CHOICENO',
+      size: 200,
+      cell: (info: any) => {
+        const value = info.getValue();
+        console.log(value === "-1");
+        return (
+          <div className={`rounded-full px-2 py-1`}>
+            <p className="text-xs">{value === "-1" ? 'Not Enrolled' : 'Enrolled'}</p>
+          </div>
+        );
+
+      },
+    },
   ], []);
 
   const [loading, setLoading] = React.useState(false);
@@ -98,6 +113,10 @@ export default function Students() {
     <div className="flex bg-[#D9D9D9]">
       <div className="w-full min-h-screen">
         <Header
+          maxStudents={50}
+          setMaxStudents={() => { }}
+          minStudents={10}
+          setMinStudents={() => { }}
           customBtn={{
             text: "Upload CSV",
             icon: <FaUpload size={12} />,
@@ -131,6 +150,7 @@ export default function Students() {
       <Modal
         setShowModal={setShowUploadModal}
         showModal={showUploadModal}
+        type="students"
       />
     </div>
   );

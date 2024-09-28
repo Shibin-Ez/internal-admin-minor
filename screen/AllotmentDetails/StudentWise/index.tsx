@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Table from "@/components/Table";
 import { FaDownload, FaFileCsv, FaUpload } from "react-icons/fa";
 import Header from "@/components/Header";
@@ -6,9 +6,10 @@ import { saveAs } from 'file-saver';
 import axios from "axios";
 import { BASE_URL } from "@/constants/AppConstants";
 
-export default function StudentWise() {
+export default function StudentWise({ maxStudents, setMaxStudents, minStudents, setMinStudents }: any) {
   const [data, setData] = React.useState([]);
   const [isDataNull, setIsDataNull] = React.useState(false);
+
   const columns = React.useMemo(() => [
     {
       header: 'Rank',
@@ -83,7 +84,7 @@ export default function StudentWise() {
   const fetchStudentsData = async () => {
     setLoading(true);
     try {
-      const response = await axios.get(`${BASE_URL}/admin/allocate`);
+      const response = await axios.get(`${BASE_URL}/admin/allocate?max=${maxStudents}&min=${minStudents}`);
       const data = await response.data;
       console.log(data);
       if (response.status === 200) {
@@ -101,7 +102,7 @@ export default function StudentWise() {
 
   React.useEffect(() => {
     fetchStudentsData();
-  }, []);
+  }, [maxStudents, minStudents]);
 
   const exportAsCSV = () => {
     const headers = columns.map((column) => column.header);
@@ -132,6 +133,10 @@ export default function StudentWise() {
     <div className="flex bg-[#D9D9D9]">
       <div className="w-full min-h-screen">
         <Header
+          maxStudents={maxStudents}
+          setMaxStudents={setMaxStudents}
+          minStudents={minStudents}
+          setMinStudents={setMinStudents}
           customBtn={{
             text: 'Download',
             icon: <FaDownload size={10} />,

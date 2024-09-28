@@ -3,15 +3,18 @@ import React, { useRef } from 'react';
 import { FaUpload } from 'react-icons/fa';
 import { FaX } from 'react-icons/fa6';
 import LoadingSpinner from '../LoadingSpinner';
+import { BASE_URL } from '@/constants/AppConstants';
 
 interface ModalProps {
     showModal: boolean;
     setShowModal: (value: boolean) => void;
+    type: string;
 }
 
 export default function Modal({
     showModal,
     setShowModal,
+    type,
 }: ModalProps) {
 
     const [isUploadSuccess, setIsUploadSuccess] = React.useState<boolean | null>(null);
@@ -25,7 +28,7 @@ export default function Modal({
             formData.append('file', file);
             setIsUploading(true);
             try {
-                const response = await fetch("https://minor-nitc-server.onrender.com/admin/upload/csv",
+                const response = await fetch(`${BASE_URL}/admin/upload/csv${type === "students" ? "" : "/minors"}`,
                     {
                         method: "POST",
                         body: formData,

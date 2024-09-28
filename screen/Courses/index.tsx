@@ -1,10 +1,13 @@
 import React from "react";
 import Table from "@/components/Table";
-import { FaChevronDown, FaPlus } from "react-icons/fa";
+import { FaChevronDown, FaPlus, FaUpload } from "react-icons/fa";
 import Header from "@/components/Header";
+import Modal from "@/components/Modal";
 
 export default function Courses() {
   const [data, setData] = React.useState([]);
+  const [showUploadModal, setShowUploadModal] = React.useState(false);
+
   const columns = React.useMemo(() => [
     {
       header: 'Name',
@@ -84,12 +87,16 @@ export default function Courses() {
   return (
     <div className="flex bg-[#D9D9D9]">
       <div className="w-full min-h-screen">
-        <Header 
+        <Header
+          maxStudents={50}
+          setMaxStudents={() => {}}
+          minStudents={10}
+          setMinStudents={() => {}}
           customBtn={{
-            text: "Add Course",
-            icon: <FaPlus size={10} />,
+            text: "Upload CSV",
+            icon: <FaUpload size={12} />,
             onClick: () => {
-              console.log("Add Course");
+              setShowUploadModal(true);
             },
           }}
         />
@@ -102,6 +109,11 @@ export default function Courses() {
           loading={loading}
         />
       </div>
+      <Modal
+        setShowModal={setShowUploadModal}
+        showModal={showUploadModal}
+        type="minors"
+      />
     </div>
   );
 }

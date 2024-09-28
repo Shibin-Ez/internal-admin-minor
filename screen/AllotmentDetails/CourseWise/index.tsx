@@ -1,4 +1,4 @@
-import React from "react";
+import React, { use, useEffect } from "react";
 import Table from "@/components/Table";
 import { FaDownload, FaPlus } from "react-icons/fa";
 import Header from "@/components/Header";
@@ -8,13 +8,36 @@ import { saveAs } from 'file-saver';
 interface CourseWiseProps {
   setRenderComponent: any;
   setRenderData: any;
+  maxStudents: number;
+  setMaxStudents: (value: number) => void;
+  minStudents: number;
+  setMinStudents: (value: number) => void;
 }
 
 export default function CourseWise({
   setRenderComponent,
   setRenderData,
+  maxStudents,
+  setMaxStudents,
+  minStudents,
+  setMinStudents,
 }: CourseWiseProps) {
   const [data, setData] = React.useState<any>([]);
+
+  // // load from  local strorage
+  // const [maxStudents, setMaxStudents] = React.useState(() => {
+  //   const savedMax = localStorage.getItem('maxStudents');
+  //   return savedMax !== null ? Number(savedMax) : 50;
+  // });
+
+  // const [minStudents, setMinStudents] = React.useState(() => {
+  //   const savedMax = localStorage.getItem('minStudents');
+  //   return savedMax !== null ? Number(savedMax) : 50;
+  // });
+
+  useEffect(() => {
+    console.log("Max Students", maxStudents);
+  }, [maxStudents, minStudents]);
 
   
   const columns = React.useMemo(() => [
@@ -63,7 +86,7 @@ export default function CourseWise({
   const fetchData = async () => {
     setLoading(true);
     try{
-      const response = await axios.get(`${BASE_URL}/admin/allocate`);
+      const response = await axios.get(`${BASE_URL}/admin/allocate?max=${maxStudents}&min=${minStudents}`);
       const data = response.data;
       if(response.status === 200){
         console.log("Data", data);
@@ -110,7 +133,7 @@ export default function CourseWise({
 
   React.useEffect(() => {  
     fetchData();
-  }, []);
+  }, [maxStudents, minStudents]);
 
   const exportAsCSV = () => {
     let headers = columns.map((column) => column.header);
@@ -140,7 +163,11 @@ export default function CourseWise({
   return (
     <div className="flex bg-[#D9D9D9]">
       <div className="w-full min-h-screen">
-        <Header 
+        <Header
+          maxStudents = {maxStudents}
+          setMaxStudents = {setMaxStudents}
+          minStudents = {minStudents}
+          setMinStudents = {setMinStudents}
           customBtn={{
             text: "Download",
             icon: <FaDownload />,

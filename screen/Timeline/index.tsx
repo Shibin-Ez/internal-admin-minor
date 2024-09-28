@@ -12,6 +12,7 @@ import { BASE_URL } from '@/constants/AppConstants';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import LoadingSpinner from '@/components/LoadingSpinner';
+import dayjs from 'dayjs';
 
 type ValuePiece = Date | null;
 type Value = ValuePiece | [ValuePiece, ValuePiece];
@@ -109,6 +110,29 @@ export default function Timeline() {
       setLoading((prev) => ({ ...prev, resetLoading: false }));
     }
   }
+
+
+  React.useEffect(() => {
+    const fetchTimeline = async () => {
+      try {
+        const response = await axios.get(`${BASE_URL}/admin/timeline`);
+        if(response.status === 200){
+          const data = response.data;
+          console.log(data);
+          setDates({
+            verificationStartDate: dayjs(data.startDate),
+            verificationEndDate: dayjs(data.verificationEndDate),
+            choiceFillingStartDate: dayjs(data.choicefillingStartDate),
+            choiceFillingEndDate: dayjs(data.choicefillingEndDate),
+          });
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    fetchTimeline();
+  }, []); 
+
 
   return (
     <div className="bg-white w-full min-h-screen flex justify-center">
