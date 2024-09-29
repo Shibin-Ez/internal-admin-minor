@@ -120,7 +120,7 @@ export default function UnallocatedStudents({ maxStudents, setMaxStudents, minSt
 
   const exportAsCSV = () => {
     
-    const studentsCSV = fetch("/api/downloads/fetchStudentsCSV");
+    const studentsCSV = fetch("/api/downloads/fetchStudentsCSV?max=" + maxStudents + "&min=" + minStudents);
     let csvContent = '';
 
     studentsCSV.then((response) => {

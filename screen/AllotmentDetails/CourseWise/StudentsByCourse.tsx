@@ -94,7 +94,7 @@ export default function StudentsByCourse({
     // const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
     // saveAs(blob, `${renderData.course}.csv`);
     console.log("RENDER DATA", renderData);
-    const studentsByCourse = fetch("/api/downloads/fetchStudentsByCourseCSV?minorId=" + renderData.courseId);
+    const studentsByCourse = fetch("/api/downloads/fetchStudentsByCourseCSV?minorId=" + renderData.courseId + "&max=" + maxStudents + "&min=" + minStudents);
     let csvContent = '';
 
     studentsByCourse.then((response) => {
