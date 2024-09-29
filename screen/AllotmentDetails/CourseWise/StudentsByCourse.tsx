@@ -103,13 +103,13 @@ export default function StudentsByCourse({
 					setMaxStudents={setMaxStudents}
 					minStudents={minStudents}
 					setMinStudents={setMinStudents}
-          customBtn={{
+          customBtn={[{
             text: "Download",
             icon: <FaDownload />,
             onClick: () => {
               exportAsCSV();
             },
-          }}
+          }]}
         />
         <Table
           data={renderData.studentsList}
