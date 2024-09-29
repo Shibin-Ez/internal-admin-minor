@@ -42,36 +42,18 @@ export default function CourseWise({
   
   const columns = React.useMemo(() => [
     {
-      header: 'Course Code',
-      accessorKey: 'CODE',
-      size: 500,
-      cell: (info: any) => info.getValue(),
-    },
-    {
       header: 'Name',
       accessorKey: 'NAME',
-      size: 1000,
       cell: (info: any) => info.getValue(),
-    },
-    {
-      header: 'Department',
-      accessorKey: 'DEPARTMENT',
-      cell: (info: any) => info.getValue(),
-    },
+    },  
     {
       header: 'Faculty Name',
       accessorKey: 'FACULTY_NAME',
       cell: (info: any) => info.getValue(),
     },
     {
-      header: 'Credits',
-      accessorKey: 'CREDIT',
-      cell: (info: any) => info.getValue(),
-    },
-    {
-      header: 'Schedule',
-      accessorKey: 'SCHEDULE',
-      size: 500,
+      header: 'Faculty Email',
+      accessorKey: 'FACULTY_EMAIL',
       cell: (info: any) => info.getValue(),
     },
     {
@@ -97,11 +79,9 @@ export default function CourseWise({
             ID: data.course._id,
             ISDROPPED: 0,
             NAME: data.course.name,
-            CODE: data.course.code,
             DEPARTMENT: data.course.department,
             FACULTY_NAME: data.course.faculty,
-            CREDIT: data.course.credit,
-            SCHEDULE: data.course.schedule,
+            FACULTY_EMAIL: data.course.facultyEmail,
             STUDENTS: data.students,
             TOTAL_STUDENTS: data.enrolled,
           });
@@ -168,13 +148,13 @@ export default function CourseWise({
           setMaxStudents = {setMaxStudents}
           minStudents = {minStudents}
           setMinStudents = {setMinStudents}
-          customBtn={{
+          customBtn={[{
             text: "Download",
             icon: <FaDownload />,
             onClick: () => {
               exportAsCSV();
             }
-          }}
+          }]}
         />
         <Table
           data={data}

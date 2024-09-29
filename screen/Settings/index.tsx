@@ -4,7 +4,10 @@ import axios from "axios";
 export default function Settings() {
 
   const handleRandomAllocate = async () => {
-    confirm("Are you sure you want to allocate randomly?");
+    const confirmResult = confirm("Are you sure you want to allocate randomly?");
+    if (!confirmResult) {
+      return;
+    }
     const response = await axios.patch(`${BASE_URL}/admin/allocate/random`);
     console.log(response.data);
     if (response.status === 200) {

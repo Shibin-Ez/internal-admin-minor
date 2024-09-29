@@ -2,12 +2,19 @@ import { NextApiResponse, NextApiRequest } from "next";
 import axios from "axios";
 import { BASE_URL } from "@/constants/AppConstants";
 
+const formatDate = (date: string) => {
+    const dateObj = new Date(date);
+    return `${dateObj.getDate()}/${dateObj.getMonth()}/${dateObj.getFullYear()}`;
+}
+
 const formatData = (data: any) => {
+    console.log(data);
     return data.map((student: any) => {
         return {
             ID: student.id,
             NAME: student.name,
             REGNO: student.regNo,
+            DOB: formatDate(student.dateOfBirth),
             EMAIL: student.email,
             DEPARTMENT: student.programName,
             SEMESTER: student.semester,
@@ -15,6 +22,9 @@ const formatData = (data: any) => {
             FANAME: student.faName,
             FAEMAIL: student.faEmail,
             ENROLLED: student.enrolled,
+            CGPA: student.cgpa,
+            SGPAS1: student.sgpaS1,
+            SGPAS2: student.sgpaS2,
         };
     });
 };

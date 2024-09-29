@@ -7,13 +7,9 @@ const formatData = (data: any) => {
         return {
             ID: course.id,
             NAME: course.name,
-            CODE: course.code,
-            DEPARTMENT: course.department,
             FACULTY_NAME: course.faculty,
             FACULTY_EMAIL: course.facultyEmail,
-            FACULTY_PHONE: course.facultyContact,
-            CREDIT: course.credit,
-            SCHEDULE: course.schedule,
+            DESCRIPTION: course.description
         };
     });
 };

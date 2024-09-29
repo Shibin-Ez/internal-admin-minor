@@ -1,10 +1,9 @@
 import React from "react";
-import Sidebar from "@/components/Sidebar";
 import Table from "@/components/Table";
-import { FaChevronDown, FaPlus, FaUpload } from "react-icons/fa";
+import { FaDownload, FaUpload } from "react-icons/fa";
 import Header from "@/components/Header";
 import Modal from "@/components/Modal";
-
+import { saveAs } from 'file-saver';
 export default function Students() {
   const [data, setData] = React.useState([]);
   const [showUploadModal, setShowUploadModal] = React.useState(false);
@@ -19,6 +18,12 @@ export default function Students() {
     {
       header: 'Reg No',
       accessorKey: 'REGNO',
+      size: 500,
+      cell: (info: any) => info.getValue(),
+    },
+    {
+      header: 'Date of Birth',
+      accessorKey: 'DOB',
       size: 500,
       cell: (info: any) => info.getValue(),
     },
@@ -70,20 +75,23 @@ export default function Students() {
       },
     },
     {
-      header: 'ChoiceNo',
-      accessorKey: 'CHOICENO',
+      header: 'CGPA',
+      accessorKey: 'CGPA',
       size: 200,
-      cell: (info: any) => {
-        const value = info.getValue();
-        console.log(value === "-1");
-        return (
-          <div className={`rounded-full px-2 py-1`}>
-            <p className="text-xs">{value === "-1" ? 'Not Enrolled' : 'Enrolled'}</p>
-          </div>
-        );
-
-      },
+      cell: (info: any) => info.getValue(),
     },
+    {
+      header: 'SGPA S1',
+      accessorKey: 'SGPAS1',
+      size: 200,
+      cell: (info: any) => info.getValue(),
+    },
+    {
+      header: 'SGPA S2',
+      accessorKey: 'SGPAS2',
+      size: 200,
+      cell: (info: any) => info.getValue(),
+    }
   ], []);
 
   const [loading, setLoading] = React.useState(false);
@@ -117,13 +125,31 @@ export default function Students() {
           setMaxStudents={() => { }}
           minStudents={10}
           setMinStudents={() => { }}
-          customBtn={{
-            text: "Upload CSV",
-            icon: <FaUpload size={12} />,
-            onClick: () => {
-              setShowUploadModal(true);
+          customBtn={[
+            {
+              text: 'Download',
+              icon: <FaDownload size={12} />,
+              onClick: () => {
+                const studentsCSV = fetch("/api/downloads/fetchUploadedStudentsCSV");
+                let csvContent = '';
+
+                studentsCSV.then((response) => {
+                  response.json().then((data) => {
+                    console.log(data);
+                    csvContent = data;
+                    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+                    saveAs(blob, 'EnrolledStudents.csv');
+                  });
+                });
+              }
             },
-          }}
+            {
+              text: "Upload CSV",
+              icon: <FaUpload size={12} />,
+              onClick: () => {
+                setShowUploadModal(true);
+              },
+            }]}
         />
         {
           !isDataNull ? (

@@ -1,13 +1,15 @@
 import React from 'react'
-import { FaArrowCircleLeft, FaArrowCircleRight, FaBook, FaCalendarTimes, FaCog, FaDoorOpen, FaSeedling, FaTimes, FaUser } from 'react-icons/fa'
+import { FaArrowCircleLeft, FaArrowCircleRight, FaBook, FaCalendarTimes, FaChevronCircleLeft, FaChevronCircleRight, FaCog, FaDoorOpen, FaSeedling, FaTimes, FaUser } from 'react-icons/fa'
 import { MdSchool } from 'react-icons/md';
 
 interface SidebarProps {
     renderComponent: string;
     setRenderComponent: any;
+    navigator: any;
+    setNavigator: any;
 }
 
-export default function Sidebar({ renderComponent, setRenderComponent }: SidebarProps) {
+export default function Sidebar({ renderComponent, setRenderComponent, navigator, setNavigator }: SidebarProps) {
 
     const [toggleSidebar, setToggleSidebar] = React.useState(true);
     const [toggleSubFolder, setToggleSubFolder] = React.useState(false);
@@ -45,6 +47,11 @@ export default function Sidebar({ renderComponent, setRenderComponent }: Sidebar
                     id: 'COURSE_WISE',
                     name: 'Course wise',
                     icon: <FaBook className='text-gray-400' size={10} />
+                },
+                {
+                    id: 'UNALLOTED_STUDENTS',
+                    name: 'Unalloted Students',
+                    icon: <FaUser className='text-gray-400' size={10} />
                 }
             ]
         },
@@ -64,6 +71,24 @@ export default function Sidebar({ renderComponent, setRenderComponent }: Sidebar
 
     return (
         <div className={`min-h-screen overflow-hidden bg-[#1E293B] ${toggleSidebar ? 'w-1/5' : 'w-1/12'}`}>
+            <div className='flex flex-row ml-5 mt-5 gap-5'>
+                <FaChevronCircleLeft className='text-white' size={25}
+                    onClick={() => {
+                        let currIndex = navigator.indexOf(renderComponent);
+                        if (currIndex === 0) return;
+                        setRenderComponent(navigator[currIndex - 1]);
+                        currIndex = currIndex - 1;
+                    }}
+                />
+                <FaChevronCircleRight className='text-white' size={25}
+                    onClick={() => {
+                        let currIndex = navigator.indexOf(renderComponent);
+                        if (currIndex === navigator.length - 1) return;
+                        setRenderComponent(navigator[currIndex + 1]);
+                        currIndex = currIndex + 1;
+                    }}
+                />
+            </div>
             <div className='mx-5 mt-10 justify-center flex items-center flex-col'>
                 <div className='bg-black h-10 w-10 rounded-full' />
                 <div className='mt-5'>
@@ -82,6 +107,7 @@ export default function Sidebar({ renderComponent, setRenderComponent }: Sidebar
                                                 setToggleSubFolder(!toggleSubFolder);
                                                 return;
                                             }
+                                            setNavigator([...navigator, section.id]);
                                             setRenderComponent(section.id);
                                         }}
                                         className={`flex items-center ${toggleSidebar === true ? 'justify-between' : 'justify-center'} px-5 py-2 text-white hover:bg-[#2F3E4E] cursor-pointer ${renderComponent === section.id ? 'bg-[#2F3E4E]' : ''}`}>
@@ -96,12 +122,13 @@ export default function Sidebar({ renderComponent, setRenderComponent }: Sidebar
                                                 {
                                                     section.subFolders.map((subFolder, index) => (
                                                         <div key={index} className={`${toggleSidebar && 'flex flex-row items-center justify-start gap-2 pl-5'}`}>
-                                                            <div 
+                                                            <div
                                                                 className={`${toggleSidebar ? 'bg-transparent border-l border-white border-b h-5 w-10 mb-4 rounded-bl-md' : 'hidden'}`}
                                                             />
                                                             <li
                                                                 key={index}
                                                                 onClick={() => {
+                                                                    setNavigator([...navigator, subFolder.id]);
                                                                     setRenderComponent(subFolder.id);
                                                                 }}
                                                                 className={`flex items-center w-full ${toggleSidebar === true ? 'justify-between' : 'justify-center'} px-5 py-2 gap-4   T text-white hover:bg-[#2F3E4E] cursor-pointer text-sm ${renderComponent === subFolder.id ? 'bg-[#2F3E4E]' : ''}`}>

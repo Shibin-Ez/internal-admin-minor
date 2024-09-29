@@ -1,26 +1,23 @@
 import React, { useEffect, useState } from "react";
 import Sidebar from "@/components/Sidebar";
-import Table from "@/components/Table";
-import { FaChevronDown } from "react-icons/fa";
-import { Inter } from "next/font/google";
-import Header from "@/components/Header";
 import Students from "@/screen/Students";
 import Courses from "@/screen/Courses";
 import LoadingSpinner from "@/components/LoadingSpinner";
 import Settings from "@/screen/Settings";
 import Timeline from "@/screen/Timeline";
-import { render } from "react-dom";
 import StudentWise from "@/screen/AllotmentDetails/StudentWise";
 import CourseWise from "@/screen/AllotmentDetails/CourseWise";
 import StudentsByCourse from "@/screen/AllotmentDetails/CourseWise/StudentsByCourse";
+import UnallocatedStudents from "@/screen/AllotmentDetails/UnallocatedStudents";
 
 export default function Home() {
   const [renderComponent, setRenderComponent] = useState("students");
   const [renderData, setRenderData] = useState([]);
-  const [toggleChange, setToggleChange] = useState(false);
 
   const [maxStudents, setMaxStudents] = useState(50);
   const [minStudents, setMinStudents] = useState(10);
+
+  const [navigator, setNavigator] = useState([]);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -84,6 +81,13 @@ export default function Home() {
         );
       case "SETTINGS":
         return <Settings />;
+      case "UNALLOTED_STUDENTS":
+        return <UnallocatedStudents 
+            maxStudents={maxStudents}
+            setMaxStudents={setMaxStudents}
+            minStudents={minStudents}
+            setMinStudents={setMinStudents}
+            />;
       default:
         return <LoadingSpinner />;
     }
@@ -94,6 +98,8 @@ export default function Home() {
       <Sidebar
         renderComponent={renderComponent}
         setRenderComponent={setRenderComponent}
+        navigator={navigator}
+        setNavigator={setNavigator}
       />
       <div className="w-full min-h-screen">
         {renderItemFunction(renderComponent)}

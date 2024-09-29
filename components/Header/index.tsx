@@ -8,7 +8,7 @@ interface HeaderProps {
     text: string;
     icon: React.ReactNode;
     onClick: () => void;
-  };
+  }[];
   maxStudents: number;
   setMaxStudents: (value: number) => void;
   minStudents: number;
@@ -34,15 +34,27 @@ export default function Header({
   // });
 
   const handleApply = async () => {
-    const response = await axios.patch(`${BASE_URL}/admin/allocate/confirm?max=${maxStudents}&min=${minStudents}`);
-    console.log(response.data);
 
-    setIsFilterOpen(false);
-    if (response.status === 200) {
-      alert("Result Published Successfully");
-    } else {
-      alert("Error in Publishing Result");
+    const confirmResult = confirm(`Are you sure you want to publish the result with max students ${maxStudents} and min students ${minStudents}`);
+    console.log("confirmResult", confirmResult);
+    if (!confirmResult) {
+      console.log("Not confirmed");
+      return;
     }
+    else {
+      console.log("Confirmed");
+      const response = await axios.patch(`${BASE_URL}/admin/allocate/confirm?max=${maxStudents}&min=${minStudents}`);
+      console.log(response.data);
+
+      setIsFilterOpen(false);
+      if (response.status === 200) {
+        alert("Result Published Successfully");
+      } else {
+        alert("Error in Publishing Result");
+      }
+    }
+
+
   };
 
   useEffect(() => {
@@ -55,13 +67,23 @@ export default function Header({
 
   return (
     <div className="w-full h-20 bg-[#1E293B] flex justify-end items-end px-2">
-      <div
+      {/* <div
         onClick={() => customBtn.onClick()}
         className="rounded bg-white my-1 mx-2 h-8 justify-between px-2 w-28 items-center flex text-gray-500 cursor-pointer"
       >
         <p className="text-sm">{customBtn.text}</p>
         {customBtn.icon}
-      </div>
+      </div> */}
+      {customBtn.map((btn, index) => (
+        <div
+          key={index}
+          onClick={() => btn.onClick()}
+          className="rounded bg-white my-1 mx-2 h-8 justify-between px-2 w-28 items-center flex text-gray-500 cursor-pointer"
+        >
+          <p className="text-sm">{btn.text}</p>
+          {btn.icon}
+        </div>
+      ))}
       <div
         onClick={() => setIsFilterOpen(!isFilterOpen)}
         className="w-20 rounded bg-white my-1 mx-2 h-8 justify-between px-1 items-center flex text-gray-500"

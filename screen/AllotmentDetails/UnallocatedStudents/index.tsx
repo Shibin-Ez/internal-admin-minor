@@ -6,17 +6,11 @@ import { saveAs } from 'file-saver';
 import axios from "axios";
 import { BASE_URL } from "@/constants/AppConstants";
 
-export default function StudentWise({ maxStudents, setMaxStudents, minStudents, setMinStudents }: any) {
+export default function UnallocatedStudents({ maxStudents, setMaxStudents, minStudents, setMinStudents }: any) {
   const [data, setData] = React.useState([]);
   const [isDataNull, setIsDataNull] = React.useState(false);
 
   const columns = React.useMemo(() => [
-    {
-      header: 'Rank',
-      accessorKey: 'RANK',
-      size: 200,
-      cell: (info: any) => info.getValue(),
-    },
     {
       header: 'Name',
       accessorKey: 'NAME',
@@ -51,6 +45,24 @@ export default function StudentWise({ maxStudents, setMaxStudents, minStudents, 
       cell: (info: any) => info.getValue(),
     },
     {
+        header: 'CGPA',
+        accessorKey: 'CGPA',
+        size: 200,
+        cell: (info: any) => info.getValue(),
+    },
+    {
+        header: 'SGPA S1',
+        accessorKey: 'SGPAS1',
+        size: 200,
+        cell: (info: any) => info.getValue(),
+    },
+    {
+        header: 'SGPA S2',
+        accessorKey: 'SGPAS2',
+        size: 200,
+        cell: (info: any) => info.getValue(),
+    },
+    {
       header: 'Alloted Course',
       accessorKey: 'ENROLLED',
       size: 500,
@@ -62,12 +74,6 @@ export default function StudentWise({ maxStudents, setMaxStudents, minStudents, 
         }
         return value;
       }
-    },
-    {
-      header: 'Choice No',
-      accessorKey: 'CHOICE_NO',
-      size: 200,
-      cell: (info: any) => info.getValue(),
     }
   ], []);
 
@@ -78,19 +84,21 @@ export default function StudentWise({ maxStudents, setMaxStudents, minStudents, 
     try {
       const response = await axios.get(`${BASE_URL}/admin/allocate?max=${maxStudents}&min=${minStudents}`);
       const data = await response.data;
+      const unallocatedStudents = data.studentWise.unallocatedStudents;
+      console.log("Unallocated Students", unallocatedStudents);
       console.log("StudentWise", data);
       if (response.status === 200) {
-        const formattedData = data.studentWise.data.map((item: any, index: number) => {
+        const formattedData = unallocatedStudents.map((item: any, index: number) => {
           return {
-            RANK: item.rank,
-            NAME: item.student.name,
-            REG_NO: item.student.regNo,
-            EMAIL: item.student.email,
-            DEPARTMENT: item.student.programName,
-            SECTION: item.student.sectionBatchName,
-            FA_NAME: item.student.faName,
-            ENROLLED: item.enrolledCouse.name,
-            CHOICE_NO: item.choiceNo
+            NAME: item.name,
+            REG_NO: item.regNo,
+            EMAIL: item.email,
+            DEPARTMENT: item.programName,
+            SECTION: item.sectionBatchName,
+            FA_NAME: item.faName,
+            CGPA: item.cgpa,
+            SGPAS1: item.sgpaS1,
+            SGPAS2: item.sgpaS2,
           }
         })
         console.log("Formatted Data", formattedData);
