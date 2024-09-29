@@ -75,24 +75,36 @@ export default function StudentsByCourse({
   );
 
   const exportAsCSV = () => {
-    const headers = columns.map((column) => column.header);
-    const rows = renderData.studentsList.map((row: any) => ({
-      RANK: row.rank,
-      NAME: row.student.name,
-      DEPARTMENT: row.student.programName,
-      REGNO: row.student.regNo,
-      BATCH: row.student.sectionBatchName,
-      CGPA: row.student.cgpa,
-    }));
+    // const headers = columns.map((column) => column.header);
+    // const rows = renderData.studentsList.map((row: any) => ({
+    //   RANK: row.rank,
+    //   NAME: row.student.name,
+    //   DEPARTMENT: row.student.programName,
+    //   REGNO: row.student.regNo,
+    //   BATCH: row.student.sectionBatchName,
+    //   CGPA: row.student.cgpa,
+    // }));
 
-    let csvContent = "";
-    csvContent += headers.join(",") + "\r\n";
-    rows.forEach((rowArray: any) => {
-      csvContent += Object.values(rowArray).join(",") + "\r\n";
+    // let csvContent = "";
+    // csvContent += headers.join(",") + "\r\n";
+    // rows.forEach((rowArray: any) => {
+    //   csvContent += Object.values(rowArray).join(",") + "\r\n";
+    // });
+    // console.log(renderData)
+    // const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+    // saveAs(blob, `${renderData.course}.csv`);
+    console.log("RENDER DATA", renderData);
+    const studentsByCourse = fetch("/api/downloads/fetchStudentsByCourseCSV?minorId=" + renderData.courseId);
+    let csvContent = '';
+
+    studentsByCourse.then((response) => {
+      response.json().then((data) => {
+        console.log(data);
+        csvContent = data;
+        const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+        saveAs(blob, renderData.course + '.csv');
+      });
     });
-    console.log(renderData)
-    const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
-    saveAs(blob, `${renderData.course}.csv`);
   };
 
   return (

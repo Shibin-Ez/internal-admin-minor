@@ -109,7 +109,8 @@ export default function Table({
                                         console.log('row', row.original.NAME);
                                         setRenderData({
                                             studentsList: row.original.STUDENTS,
-                                            course: row.original.NAME
+                                            course: row.original.NAME,
+                                            courseId: row.original.ID,
                                         });
                                     }
                             }}
