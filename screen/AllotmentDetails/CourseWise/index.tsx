@@ -119,12 +119,9 @@ export default function CourseWise({
     let headers = columns.map((column) => column.header);
     headers.push('Is Dropped');
     const rows = data.map((row: any) => ({
-      CODE: row.CODE,
       NAME: row.NAME,
-      DEPARTMENT: row.DEPARTMENT,
       FACULTY_NAME: row.FACULTY_NAME,
-      CREDIT: row.CREDIT,
-      SCHEDULE: row.SCHEDULE,
+      FACULTY_EMAIL: row.FACULTY_EMAIL,
       TOTAL_STUDENTS: row.TOTAL_STUDENTS,
       ISDROPPED: row.ISDROPPED === 1 ? 'Yes' : 'No',
     }));
