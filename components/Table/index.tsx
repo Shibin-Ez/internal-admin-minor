@@ -106,9 +106,10 @@ export default function Table({
                                     if (isClickable && !row.original.ISDROPPED) {
                                         console.log('row', row.original.STUDENTS);
                                         setRenderComponent(navigationTo);
+                                        console.log('row', row.original.NAME);
                                         setRenderData({
                                             studentsList: row.original.STUDENTS,
-                                            course: row.original.CODE
+                                            course: row.original.NAME
                                         });
                                     }
                             }}

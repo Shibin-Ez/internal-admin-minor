@@ -90,7 +90,7 @@ export default function StudentsByCourse({
     rows.forEach((rowArray: any) => {
       csvContent += Object.values(rowArray).join(",") + "\r\n";
     });
-
+    console.log(renderData)
     const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
     saveAs(blob, `${renderData.course}.csv`);
   };
